@@ -18,29 +18,46 @@ export const INGREDIENT_KEYS: Record<Ingredient, string> = {
 
 export class Pizza extends Phaser.GameObjects.Container {
   private ingredients: Ingredient[] = []
-  private doughSprite!: Phaser.GameObjects.Image
-  private ingredientSprites: Phaser.GameObjects.Image[] = []
+  private baked = false
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y)
     scene.add.existing(this)
+    this.render()
+  }
 
-    this.doughSprite = scene.add.image(0, 0, 'pizza_dough')
-    this.add(this.doughSprite)
+  private render() {
+    this.removeAll(true)
+    const dough = this.scene.add.image(0, 0, 'pizza_dough')
+    if (this.baked) dough.setTint(0xe8b860)
+    this.add(dough)
+    this.ingredients.forEach(i => this.add(this.scene.add.image(0, 0, `pizza_${i}`)))
   }
 
   addIngredient(ing: Ingredient): boolean {
     if (this.ingredients.includes(ing)) return false
     this.ingredients.push(ing)
-
-    const sprite = this.scene.add.image(0, 0, `pizza_${ing}`)
-    this.ingredientSprites.push(sprite)
-    this.add(sprite)
+    this.render()
     return true
+  }
+
+  setIngredients(ings: Ingredient[], baked = false) {
+    this.ingredients = [...ings]
+    this.baked = baked
+    this.render()
+  }
+
+  setBaked(baked: boolean) {
+    this.baked = baked
+    this.render()
   }
 
   getIngredients(): Ingredient[] {
     return [...this.ingredients]
+  }
+
+  isEmpty(): boolean {
+    return this.ingredients.length === 0
   }
 
   matches(order: Ingredient[]): boolean {
@@ -49,8 +66,8 @@ export class Pizza extends Phaser.GameObjects.Container {
   }
 
   reset() {
-    this.ingredientSprites.forEach(s => s.destroy())
-    this.ingredientSprites = []
     this.ingredients = []
+    this.baked = false
+    this.render()
   }
 }
