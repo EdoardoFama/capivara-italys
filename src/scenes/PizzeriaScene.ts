@@ -9,7 +9,9 @@ import {
   CAPIVARA,
   OVEN,
 } from '../sprites/PixelArt'
-import { Pizza, type Ingredient, INGREDIENT_LABELS } from '../objects/Pizza'
+import { Pizza, type Ingredient, INGREDIENT_LABELS, INGREDIENT_KEYS } from '../objects/Pizza'
+
+const ALL_INGREDIENTS: Ingredient[] = ['sauce', 'cheese', 'pepperoni', 'mushroom']
 
 const ORDERS: Ingredient[][] = [
   ['sauce', 'cheese'],
@@ -215,11 +217,35 @@ export class PizzeriaScene extends Phaser.Scene {
 
   private buildControls() {
     const { width, height } = this.scale
-    this.add.rectangle(0, height - 34, width, 34, 0x1a0e04, 0.82).setOrigin(0).setDepth(15)
-    const hint = '< >  ou  A D : Andar      Q/W/E/R : Ingredientes      ESPACO : Interagir'
-    this.add.text(width / 2, height - 17, hint, {
-      fontFamily: 'monospace', fontSize: '13px', color: '#f5e6c8',
-    }).setOrigin(0.5).setDepth(16)
+    const barH = 52
+    const barY = height - barH
+    const midY = barY + barH / 2
+    this.add.rectangle(0, barY, width, barH, 0x1a0e04, 0.85).setOrigin(0).setDepth(15)
+    this.add.rectangle(0, barY, width, 2, 0xc87040).setOrigin(0).setDepth(15)
+
+    // Esquerda: andar
+    this.add.text(14, midY, '< >  /  A D\nAndar', {
+      fontFamily: 'monospace', fontSize: '12px', color: '#f5e6c8', align: 'left',
+    }).setOrigin(0, 0.5).setDepth(16)
+
+    // Centro: legenda dos ingredientes (a "colinha")
+    const slotW = 150
+    const startX = width / 2 - (ALL_INGREDIENTS.length * slotW) / 2 + slotW / 2
+    ALL_INGREDIENTS.forEach((ing, i) => {
+      const x = startX + i * slotW
+      this.add.image(x - 48, midY, `pizza_${ing}`).setScale(1.0).setDepth(16)
+      this.add.text(x - 28, midY - 12, `[${INGREDIENT_KEYS[ing]}]`, {
+        fontFamily: 'monospace', fontSize: '15px', color: '#f5c060',
+      }).setOrigin(0, 0).setDepth(16)
+      this.add.text(x - 28, midY + 4, INGREDIENT_LABELS[ing], {
+        fontFamily: 'monospace', fontSize: '11px', color: '#f5e6c8',
+      }).setOrigin(0, 0).setDepth(16)
+    })
+
+    // Direita: interagir
+    this.add.text(width - 14, midY, 'ESPACO\nInteragir', {
+      fontFamily: 'monospace', fontSize: '12px', color: '#7aff7a', align: 'right',
+    }).setOrigin(1, 0.5).setDepth(16)
   }
 
   private setupInput() {
