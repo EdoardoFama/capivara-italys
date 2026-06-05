@@ -17,41 +17,41 @@ export class MenuScene extends Phaser.Scene {
     this.add.rectangle(0, 0, width, height, 0x1a1a2e).setOrigin(0)
 
     // Estrelas de fundo
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 80; i++) {
       const x = Phaser.Math.Between(0, width)
       const y = Phaser.Math.Between(0, height)
-      this.add.circle(x, y, 1, 0xffffff, Phaser.Math.FloatBetween(0.3, 0.9))
+      this.add.circle(x, y, Phaser.Math.Between(1, 2), 0xffffff, Phaser.Math.FloatBetween(0.3, 0.9))
     }
 
-    this.add.text(width / 2, height / 2 - 50, "Capivara Italy's", {
+    this.add.text(width / 2, height / 2 - 100, "Capivara Italy's", {
       fontFamily: 'monospace',
-      fontSize: '14px',
+      fontSize: '40px',
       color: '#e8a045',
       stroke: '#000000',
-      strokeThickness: 4,
+      strokeThickness: 8,
     }).setOrigin(0.5)
 
-    this.add.text(width / 2, height / 2 - 30, 'A Melhor Pizza da Capivara', {
+    this.add.text(width / 2, height / 2 - 56, 'A Melhor Pizza da Capivara', {
       fontFamily: 'monospace',
-      fontSize: '5px',
+      fontSize: '14px',
       color: '#cccccc',
     }).setOrigin(0.5)
 
     if (this.lastScore !== undefined) {
-      this.add.text(width / 2, height / 2 - 10, `Pontuacao: ${this.lastScore}`, {
+      this.add.text(width / 2, height / 2 - 20, `Pontuacao: ${this.lastScore}`, {
         fontFamily: 'monospace',
-        fontSize: '6px',
+        fontSize: '18px',
         color: '#f5c060',
       }).setOrigin(0.5)
     }
 
-    this.add.text(width / 2, height / 2 + 8, 'ENTER  Pizzaria', {
-      fontFamily: 'monospace', fontSize: '5px', color: '#ffffff',
+    this.add.text(width / 2, height / 2 + 20, 'ENTER  -  Entrar na Pizzaria', {
+      fontFamily: 'monospace', fontSize: '14px', color: '#ffffff',
     }).setOrigin(0.5)
 
-    const startText = this.add.text(width / 2, height / 2 + 22, '[ PRESSIONE ENTER ]', {
+    const startText = this.add.text(width / 2, height / 2 + 56, '[ PRESSIONE ENTER ]', {
       fontFamily: 'monospace',
-      fontSize: '6px',
+      fontSize: '16px',
       color: '#aaaaaa',
     }).setOrigin(0.5)
 
