@@ -5,8 +5,7 @@ export class GameScene extends Phaser.Scene {
   private capivara!: Capivara
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   private ground!: Phaser.Physics.Arcade.StaticGroup
-  private scoreText!: Phaser.GameObjects.Text
-  private score = 0
+  private score: number = 0
 
   constructor() {
     super({ key: 'GameScene' })
@@ -37,22 +36,13 @@ export class GameScene extends Phaser.Scene {
     this.cursors = this.input.keyboard!.createCursorKeys()
 
     // HUD
-    this.scoreText = this.add.text(6, 6, 'Pizzas: 0', {
+    this.add.text(6, 6, `Pizzas: ${this.score}`, {
       fontFamily: 'monospace',
       fontSize: '6px',
       color: '#ffffff',
       stroke: '#000000',
       strokeThickness: 2,
     })
-
-    // Texto de debug de cena
-    this.add
-      .text(width / 2, height / 2 - 20, 'Cena do jogo carregada!', {
-        fontFamily: 'monospace',
-        fontSize: '5px',
-        color: '#333333',
-      })
-      .setOrigin(0.5)
   }
 
   update() {
